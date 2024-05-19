@@ -15,7 +15,7 @@ it("matches snapshot", function () {
   expect(asFragment()).toMatchSnapshot();
 });
 
-it("works when you click on the right arrow", function () {
+it("works when you click on the right arrow and then on the left arrow", function () {
   const { container } = render(
     <Carousel photos={TEST_IMAGES} title="images for testing" />
   );
@@ -38,4 +38,16 @@ it("works when you click on the right arrow", function () {
   expect(
     container.querySelector('img[alt="testing image 2"]')
   ).toBeInTheDocument();
+
+  //move back in the carousel
+  const leftArrow = container.querySelector(".bi-arrow-left-circle");
+  fireEvent.click(leftArrow);
+
+  //expect the first image to show, but not the second
+  expect(
+    container.querySelector('img[alt="testing image 1"]')
+  ).toBeInTheDocument();
+  expect(
+    container.querySelector('img[alt="testing image 2"]')
+  ).not.toBeInTheDocument();
 });
